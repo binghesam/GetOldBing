@@ -86,6 +86,9 @@ class TweetManager:
                                         tweetPQ = PyQuery(tweetHTML)
                                         tweet = models.Tweet()
 
+                                        # debug for none return type result, by adding this if query
+                                        # by bing: wrap it in the later part
+                                        # if type(tweetPQ("p.js-tweet-text").html()).__name__ != 'NoneType':
                                         usernames = tweetPQ("span.username.u-dir b").text().split()
                                         if not len(usernames):  # fix for issue #13
                                                 continue
@@ -125,7 +128,7 @@ class TweetManager:
 
                                         results.append(tweet)
                                         resultsAux.append(tweet)
-                                        
+
                                         if receiveBuffer and len(resultsAux) >= bufferLength:
                                                 receiveBuffer(resultsAux)
                                                 resultsAux = []
@@ -134,7 +137,7 @@ class TweetManager:
                                         if tweetCriteria.maxTweets > 0 and batch_cnt_results >= tweetCriteria.maxTweets:
                                                 active = False
                                                 break
-
+                                # by bing: wrap it in the later part
                         if receiveBuffer and len(resultsAux) > 0:
                                 receiveBuffer(resultsAux)
                                 resultsAux = []
